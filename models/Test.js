@@ -1,19 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+// remember to make an endpoint for duration. this will be computed based on time aloted per question
 // Create Schema
 const TestSchema = new Schema({
-  title: {
+  title: { // test title
     type: String,
     required: true,
-    max: 40,
+    max: 255,
     min: 3
   },
-  qstPerTest: {
+  qstsPerTest: { //number of questions per test
       type: Number,
       required: true,
       min: 1,
-      max: 500
+      max: 4 // in the thousands
   },
   questions: [
     {
@@ -22,23 +22,23 @@ const TestSchema = new Schema({
         reqired: true,
         min: 5
       },
-      options: [String],
-      answer: {
+      options: [String], //an array of options (key value pair)
+      answer: { // if selected choice (option key + 1) == answer(number) then score++
         type: Number,
         min: 1,
-        max: 5
+        max: 5, 
+        required: true
       },
-      duration: {
+      duration: { // timer per question in seconds
         type: Number,
-        required: true,
-        max: 20000,
-        min: 0
+        min: 10, 
+        default: 30
       },
       createdBy: {
         type: Schema.Types.ObjectId,
         ref: 'users'
       },
-      dateCreated: {
+      date: {
         type: Date,
         default: Date.now
       }
@@ -47,31 +47,6 @@ const TestSchema = new Schema({
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'users'
-  },
-  course: {
-    type: String,
-    required: true,
-    max: 40
-  },
-  githubusername: {
-    type: String
-  },
-  social: {
-    youtube: {
-      type: String
-    },
-    twitter: {
-      type: String
-    },
-    facebook: {
-      type: String
-    },
-    linkedin: {
-      type: String
-    },
-    instagram: {
-      type: String
-    }
   },
   date: {
     type: Date,
