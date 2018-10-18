@@ -1,0 +1,5 @@
+{
+    "name": "Online Test - Development",
+    "mongoURI": "mongodb://localhost/testapp_db",
+    "secretOrKey": "secret"
+}

@@ -1,3 +1,9 @@
+
+const config = require('config');
+const Joi = require('joi');
+const morgan = require('morgan');
+const helmet = require('helmet');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -11,11 +17,22 @@ const question = require('./routes/api/questions');
 const app = express();
 
 //body parser middleware
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.static('public'));
+app.use(helmet());
+
+//accessing App Configurations
+// config.get('name');
+
+if(app.get('env') === 'development'){
+    app.use(morgan('tiny'));
+    console.log('Morgan enabled...');
+}
+
 
 //DB config 
-const db = require('./config/keys').mongoURI;
+const db = config.get('mongoURI');
 
 //Connect to mongo db
 mongoose

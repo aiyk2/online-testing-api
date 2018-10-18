@@ -1,0 +1,5 @@
+{
+    "name": "Online Test",
+    "mongoURI": "mongodb://aiyk:apppass123@ds213513.mlab.com:13513/tabs_db",
+    "secretOrKey": "secret"
+}

@@ -6,8 +6,8 @@ const TestSchema = new Schema({
   title: { // test title
     type: String,
     required: true,
-    max: 255,
-    min: 3
+    maxlength: 255,
+    minlength: 3
   },
   qstsPerTest: { //number of questions per test
       type: Number,
@@ -20,7 +20,7 @@ const TestSchema = new Schema({
       question: {
         type: String,
         reqired: true,
-        min: 5
+        minlength: 5
       },
       options: [String], //an array of options (key value pair)
       answer: { // if selected choice (option key + 1) == answer(number) then score++
@@ -32,7 +32,8 @@ const TestSchema = new Schema({
       duration: { // timer per question in seconds
         type: Number,
         min: 10, 
-        default: 30
+        default: 30,
+        min: 1
       },
       createdBy: {
         type: Schema.Types.ObjectId,
