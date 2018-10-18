@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const passport = require('passport');
 
 // Load Validation
@@ -8,18 +8,6 @@ const validateNewTestInput = require('../../validation/newTest');
 
 // Load Test Model
 const Test = require('../../models/Test');
-// Load User Model
-const User = require('../../models/User');
-
-/*
-
-POST Question
-GET Test Questions
-GET Question
-EDIT Question
-DELETE Question
-
-*/
 
 // @route   GET api/test/test
 // @desc    Tests test route
