@@ -13,7 +13,7 @@ const TestSchema = new Schema({
       type: Number,
       required: true,
       min: 1,
-      max: 4 // in the thousands
+      max: 500
   },
   questions: [
     {

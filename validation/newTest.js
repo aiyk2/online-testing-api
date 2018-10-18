@@ -19,8 +19,8 @@ module.exports = function validateNewTestInput(data) {
     errors.qstsPerTest = 'The number of questions field is required';
   }
 
-  if (!Validator.isLength(data.qstsPerTest, { min: 3, max: 255 })) {
-    errors.qstsPerTest = 'The number of questions field must be between 1 and 4 characters';
+  if (!Validator.isLength(data.qstsPerTest, { min: 1, max: 500 })) {
+    errors.qstsPerTest = 'The number of questions field must be between 1 and 500';
   }
   return {
     errors,
