@@ -6,7 +6,6 @@ const helmet = require('helmet');
 
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const passport = require('passport');
 
 const users = require('./routes/api/users');
