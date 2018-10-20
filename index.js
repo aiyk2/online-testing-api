@@ -1,7 +1,6 @@
 
 const config = require('config');
 const debug = require('debug')('app:debug');
-const Joi = require('joi');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
