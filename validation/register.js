@@ -1,4 +1,3 @@
-
 const Joi = require('joi');
 
 module.exports = function validateRegisterInput(data) {

@@ -65,11 +65,11 @@ router.post('/register', (req, res) => {
 // @desc    Login User / Returning JWT Token
 // @access  Public
 router.post('/login', (req, res) => {
-  const { errors, isValid } = validateLoginInput(req.body);
+  const validate = validateLoginInput(req.body);
 
   // Check Validation
-  if (!isValid) {
-    return res.status(400).json(errors);
+  if (validate.error) {
+    return res.status(400).json(validate.error);
   }
 
   const email = req.body.email;
@@ -79,8 +79,7 @@ router.post('/login', (req, res) => {
   User.findOne({ email }).then(user => {
     // Check for user
     if (!user) {
-      errors.email = 'User not found';
-      return res.status(404).json(errors);
+      return res.status(404).json('User not found');
     }
 
     // Check Password
@@ -102,8 +101,7 @@ router.post('/login', (req, res) => {
           }
         );
       } else {
-        errors.password = 'Password incorrect';
-        return res.status(400).json(errors);
+        return res.status(400).json('Password incorrect');
       }
     });
   });
