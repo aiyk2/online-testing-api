@@ -10,7 +10,6 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 const users = require('./routes/api/users');
-const profile = require('./routes/api/profiles');
 const test = require('./routes/api/tests');
 const question = require('./routes/api/questions');
 
@@ -48,7 +47,6 @@ require('./config/passport')(passport);
 
 // use routes
 app.use('/api/users', users);
-app.use('/api/profile', profile);
 app.use('/api/test', test);
 app.use('/api/question', question);
 

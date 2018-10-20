@@ -3,9 +3,17 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const UserSchema = new Schema({
-  name: {
+  firstname: {
     type: String,
-    required: true
+    required: true,
+    minlength: 3,
+    maxlength: 255
+  },
+  lastname: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 255
   },
   email: {
     type: String,
