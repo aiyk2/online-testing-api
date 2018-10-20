@@ -19,6 +19,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "config": "^2.0.1",
+    "debug": "^4.1.0",
     "express": "^4.16.4",
     "gravatar": "^1.6.0",
     "helmet": "^3.14.0",

@@ -1,5 +1,6 @@
 
 const config = require('config');
+const debug = require('debug')('app:debug');
 const Joi = require('joi');
 const morgan = require('morgan');
 const helmet = require('helmet');
@@ -26,7 +27,7 @@ app.use(helmet());
 
 if(app.get('env') === 'development'){
     app.use(morgan('tiny'));
-    console.log('Morgan enabled...');
+    debug('Morgan enabled...');
 }
 
 
@@ -36,8 +37,8 @@ const db = config.get('mongoURI');
 //Connect to mongo db
 mongoose
     .connect(db)
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
+    .then(() => debug('MongoDB Connected'))
+    .catch(err => debug(err));
 
 //passport middleware
 app.use(passport.initialize());
@@ -53,4 +54,4 @@ app.use('/api/question', question);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => debug(`Server running on port ${port}`));
