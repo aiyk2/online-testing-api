@@ -21,12 +21,12 @@ router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { errors, isValid } = validateNewTestInput(req.body);
+    const validate = validateNewTestInput(req.body);
 
     // Check Validation
-    if (!isValid) {
+    if (validate.error) {
       // Return any errors with 400 status
-      return res.status(400).json(errors);
+      return res.status(400).json(validate.error);
     }
 
     // Get fields
@@ -57,37 +57,32 @@ router.post(
 // @desc    Get all tests
 // @access  Public
 router.get('/all', (req, res) => {
-    const errors = {};
   
     Test.find()
-    //   .populate('user', ['name', 'avatar'])
       .then(tests => {
         if (!tests) {
-          errors.notest = 'There are no tests';
-          return res.status(404).json(errors);
+          return res.status(404).json('There are no tests');
         }
   
         res.json(tests);
       })
-      .catch(err => res.status(404).json({ test: 'There are no tests' }));
+      .catch(err => res.status(404).json('There are no tests' ));
 });
 
 // @route   GET api/test/count
 // @desc    Get the total number of tests
 // @access  Public
 router.get('/count', (req, res) => {
-    const errors = {};
   
     Test.find().count()
       .then(count => {
         if (!count) {
-          errors.notest = 'There are no tests';
-          return res.status(404).json(errors);
+          return res.status(404).json('There are no tests');
         }
   
         res.json(count);
       })
-      .catch(err => res.status(404).json({ test: 'There are no tests' }));
+      .catch(err => res.status(404).json('There are no tests' ));
 });
 
 // @route   GET api/test/id/:id
@@ -95,18 +90,16 @@ router.get('/count', (req, res) => {
 // @access  Public
 
 router.get('/id/:_id', (req, res) => {
-    const errors = {};
   
     Test.findOne({ _id: req.params._id })
       .then(test => {
         if (!test) {
-          errors.notest = 'The specified test was not found';
-          res.status(404).json(errors);
+          res.status(404).json('The specified test was not found');
         }
   
         res.json(test);
       })
-      .catch(err => res.status(404).json(err));
+      .catch(err => res.status(404).json('The specified test was not found'));
 });
 
 // @route   GET api/test/user/:user_id
@@ -114,19 +107,17 @@ router.get('/id/:_id', (req, res) => {
 // @access  Public
 
 router.get('/user/:user_id', (req, res) => {
-    const errors = {};
   
     Test.find({ createdBy: req.params.user_id })
       .then(test => {
         if (!test) {
-          errors.notest = 'There is no test for this user';
-          res.status(404).json(errors);
+          res.status(404).json('There is no test for this user');
         }
   
         res.json(test);
       })
       .catch(err =>
-        res.status(404).json({ test: 'There is no test for this user' })
+        res.status(404).json('There is no test for this user' )
       );
 });
 
@@ -138,7 +129,10 @@ router.delete(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Test.findOneAndRemove({ _id: req.params._id })
-        .then(() => res.json({ success: true }));
+        .then(() => res.json({ success: true }))
+        .catch(err =>
+          res.status(404).json('Could not delete test' )
+        );;
   }
 );
 
