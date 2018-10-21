@@ -1,38 +1,13 @@
-// const Validator = require('validator');
-// const isEmpty = require('./is-empty');
+const Joi = require('joi');
 
-// module.exports = function validateQuestionInput(data) {
-//   let errors = {};
+module.exports = function validateQuestionInput(data) {
+    const schema = {
+        question: Joi.string().required().min(5).max(1000),
+        options: Joi.array().min(1).max(1000),
+        answer: Joi.number().required().min(1).max(5),
+        duration: Joi.number(),
+        test_id: Joi.string().min(1)
+    };
 
-//   data.question = !isEmpty(data.question) ? data.question : '';
-//   data.answer = !isEmpty(data.answer) ? data.answer : '';
-//   data.duration = !isEmpty(data.duration) ? data.duration : '';
-
-//   if (!Validator.isLength(data.question, { min: 5})) {
-//     errors.question = 'Test question must be between 3 and 255 characters';
-//   }
-
-//   if (Validator.isEmpty(data.question)) {
-//     errors.question = 'Question field is required';
-//   }
-
-//   if (Validator.isEmpty(data.answer)) {
-//     errors.answer = 'The answer field is required';
-//   }
-
-//   if (!Validator.isLength(data.answer, { min: 1, max: 5 })) {
-//     errors.answer = 'The answer field must be between 1 and 5 characters';
-//   }
-
-//   if (Validator.isEmpty(data.duration)) {
-//     errors.duration = 'The duration field is required';
-//   }
-
-//   if (!Validator.isLength(data.duration, { min: 10 })) {
-//     errors.duration = 'The duration field must have a minimum of 10 characters';
-//   }
-//   return {
-//     errors,
-//     isValid: isEmpty(errors)
-//   };
-// };
+    return result = Joi.validate(data, schema);
+};
