@@ -8,6 +8,7 @@ const validateQuestionInput = require("../../validation/question");
 
 // Load Test Model
 const Test = require("../../models/Test");
+const { Question } = require("../../models/Question");
 
 /*
 
@@ -24,8 +25,8 @@ DELETE Question
 // @access  Public
 router.get("/test", (req, res) => res.json({ msg: "Question Works" }));
 
-// @route   POST api/test
-// @desc    Create or edit user Test
+// @route   POST api/test/question
+// @desc    Create or edit Test question
 // @access  Private
 router.post(
   "/",
@@ -52,22 +53,47 @@ router.post(
     Test.findOne({ _id: req.body.test_id }).then(test => {
       if (test) {
         // to update a question, send along the question id with the request
-        Question.findOne({ _id: req.body.question_id }).then(question => {
-          if (question) {
-            // Update
-            Question.findOneAndUpdate(
-              { createdBy: req.user.id },
-              { $set: questionFields },
-              { new: true }
-            ).then(question => res.json(question));
-          } else {
-            // Create
+        Question.findOne({ _id: req.body.question_id })
+          .then(question => {
+            if (question) {
+              // Update
+              test.question
+                .findOneAndUpdate(
+                  { createdBy: req.user.id },
+                  { $set: questionFields },
+                  { new: true }
+                )
+                .then(question => res.json(question));
+            } else {
+              // Create
+              // test.question.findOneAndUpdate(
+              //   { createdBy: req.user.id },
+              //   { $set: new Question(questionFields) },
+              //   { new: true }
+              // ).then(question => res.json(question));
+              const questionPayload = new Question({
+                question: req.body.question,
+                options: req.body.options,
+                answer: req.body.answer,
+                duration: req.body.duration,
+                createdBy: req.user.id
+              });
 
-            new Question(questionFields)
-              .save()
-              .then(question => res.json(question));
-          }
-        });
+              questionPayload
+                .save()
+                .then(question => res.json(question))
+                .catch(err =>
+                  res
+                    .status(500)
+                    .json("There was a problem saving question")
+                );
+            }
+          })
+          .catch(err =>
+            res
+              .status(404)
+              .json("There are no tests - or internal server error")
+          );
       } else {
         return res.status(404).json("Test was not found");
       }

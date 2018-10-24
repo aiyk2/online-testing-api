@@ -1,6 +1,6 @@
 
 const config = require('config');
-const debug = require('debug')('app:debug');
+const debug = require('debug')('app:debug'); //DEBUG=app:debug nodemon index
 const morgan = require('morgan');
 const helmet = require('helmet');
 
@@ -47,7 +47,7 @@ require('./config/passport')(passport);
 // use routes
 app.use('/api/users', users);
 app.use('/api/test', test);
-app.use('/api/question', question);
+app.use('/api/test/question', question);
 
 const port = process.env.PORT || 5000;
 
