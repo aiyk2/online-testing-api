@@ -22,10 +22,7 @@ const TestSchema = new Schema({
     min: 1,
     max: 500
   },
-  questions: {
-    type: Array,
-    question: QuestionSchema
-  },
+  questions: [QuestionSchema],
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: "users"

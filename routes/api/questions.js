@@ -40,59 +40,22 @@ router.post(
       return res.status(400).json(validate.error);
     }
 
-    // Get fields
-    const questionFields = {};
-    questionFields.createdBy = req.user.id;
-    questionFields.test_id = req.body.test_id;
-    questionFields.question = req.body.question;
-    questionFields.options = req.body.options;
-    questionFields.answer = req.body.answer;
-    questionFields.duration = req.body.duration;
-
     //find test to add question to
     Test.findOne({ _id: req.body.test_id }).then(test => {
       if (test) {
-        // to update a question, send along the question id with the request
-        Question.findOne({ _id: req.body.question_id })
-          .then(question => {
-            if (question) {
-              // Update
-              test.question
-                .findOneAndUpdate(
-                  { createdBy: req.user.id },
-                  { $set: questionFields },
-                  { new: true }
-                )
-                .then(question => res.json(question));
-            } else {
-              // Create
-              // test.question.findOneAndUpdate(
-              //   { createdBy: req.user.id },
-              //   { $set: new Question(questionFields) },
-              //   { new: true }
-              // ).then(question => res.json(question));
-              const questionPayload = new Question({
-                question: req.body.question,
-                options: req.body.options,
-                answer: req.body.answer,
-                duration: req.body.duration,
-                createdBy: req.user.id
-              });
+        const questionFields = {};
+        questionFields.createdBy = req.user.id;
+        questionFields.test_id = req.body.test_id;
+        questionFields.question = req.body.question;
+        questionFields.options = req.body.options;
+        questionFields.answer = req.body.answer;
+        questionFields.duration = req.body.duration;
 
-              questionPayload
-                .save()
-                .then(question => res.json(question))
-                .catch(err =>
-                  res
-                    .status(500)
-                    .json("There was a problem saving question")
-                );
-            }
-          })
+        test.questions.push(questionFields);
+        test.save()
+          .then(test => res.json(test))
           .catch(err =>
-            res
-              .status(404)
-              .json("There are no tests - or internal server error")
+            res.status(500).json("saving question failed")
           );
       } else {
         return res.status(404).json("Test was not found");
