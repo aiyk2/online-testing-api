@@ -8,7 +8,6 @@ const validateQuestionInput = require("../../validation/question");
 
 // Load Test Model
 const Test = require("../../models/Test");
-const { Question } = require("../../models/Question");
 
 /*
 
@@ -56,6 +55,31 @@ router.post(
           .then(test => res.json(test))
           .catch(err =>
             res.status(500).json("saving question failed")
+          );
+      } else {
+        return res.status(404).json("Test was not found");
+      }
+    });
+  }
+);
+
+// @route   POST api/test/question/delete
+// @desc    Delete Test question
+// @access  Private
+router.post(
+  "/delete",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+
+    //find test and delte its question
+    Test.findOne({ _id: req.body.test_id }).then(test => {
+      if (test) {
+        const qst = test.questions.id(req.body.question_id);
+        qst.remove();
+        test.save()
+          .then(test => res.json(test))
+          .catch(err =>
+            res.status(500).json("Deletion failed")
           );
       } else {
         return res.status(404).json("Test was not found");
