@@ -33,18 +33,19 @@ router.post(
     Test.findOne({ _id: req.body.test_id }).then(test => {
       if (test) {
 
-        if(req.body.question_id){
-          const qst = test.questions.id(req.body.question_id);
-
-          qst.createdBy = req.user.id;
-          qst.question = req.body.question;
-          qst.options = req.body.options;
-          qst.answer = req.body.answer;
-          qst.duration = req.body.duration;
+        if(req.body.question_id){//where question_id = array index for the specified question
+          // const qst = test.questions.question.id(req.body.question_id);
+          question_id = req.body.question_id;
+          test.questions[question_id].createdBy = req.user.id;
+          test.questions[question_id].question = req.body.question;
+          test.questions[question_id].options = req.body.options;
+          test.questions[question_id].answer = req.body.answer;
+          test.questions[question_id].duration = req.body.duration;
+          
           test.save()
             .then(test => res.json(test))
             .catch(err =>
-              res.status(500).json("Question update failed")
+              res.status(500).json(err)
             );
         } else{
 
