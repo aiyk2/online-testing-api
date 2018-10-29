@@ -17,7 +17,7 @@ const TestScheduleSchema = new Schema({
     type: Date
   },
   status: {
-      type: Number
+    type: Number
   },
   date: {
     type: Date,
