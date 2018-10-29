@@ -29,6 +29,26 @@ const UserSchema = new Schema({
   avatar: {
     type: String
   },
+  tests: [{
+    id: {
+      type: Schema.Types.ObjectId,
+      ref: 'tests',
+      required: true
+    },
+    start: {
+      type: Date
+    },
+    status: {
+      type: Number
+    },
+    score: {
+      type: Number
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    }
+  }],
   date: {
     type: Date,
     default: Date.now
