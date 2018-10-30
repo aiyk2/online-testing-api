@@ -30,7 +30,7 @@ const UserSchema = new Schema({
     type: String
   },
   tests: [{
-    id: {
+    id: {   //the scheduled test id
       type: Schema.Types.ObjectId,
       ref: 'tests',
       required: true
@@ -39,7 +39,7 @@ const UserSchema = new Schema({
       type: Date
     },
     status: {
-      type: Number
+      type: Number //0=pending, 1=taken, 2=missed, 3=cancelled
     },
     score: {
       type: Number
