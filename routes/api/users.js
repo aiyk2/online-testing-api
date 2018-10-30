@@ -123,4 +123,20 @@ router.get(
   }
 );
 
+// @route   POST api/users/set-test
+// @desc    Schedules user for the selected test
+// @access  Private
+router.get(
+  '/set-test',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    res.json({
+      id: req.user.id,
+      firstname: req.user.firstname,
+      lastname: req.user.lastname,
+      email: req.user.email
+    });
+  }
+);
+
 module.exports = router;
